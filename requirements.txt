@@ -1,6 +1,7 @@
 asgiref==3.4.1
 Django==3.2.8
+django-environ==0.4.5
 Pillow==8.4.0
+python-decouple==3.5 #para usar el .env con las claves secretas
 pytz==2021.3
 sqlparse==0.4.2
-django-environ==0.4.5
