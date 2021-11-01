@@ -1,0 +1,52 @@
+{% extends 'core/baseLogin.html'%}
+
+{% block title %}Ficha : {{proveedor.nombre_proveedor}} {% endblock %}
+
+{%load static%}
+{%block content%}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card" style="width: 18rem; width: 100%; margin: 5px 5px;" >
+                <img src="{% if proveedor.logo_proveedor%}{{proveedor.logo_proveedor.url}}  {% endif %}" class="card-img-top" alt="Sin logo">
+                <div class="card-body">
+                    <h5 class="card-title " style="text-align: center;">{{proveedor.nombre_proveedor | upper}}</h5>
+                    <p class="card-text"> Creado: {{proveedor.created}}</p>
+                    <p class="card-text"> Ultima modificación: {{proveedor.updated}}</p>
+                    <p class="card-text"> CIF: {{proveedor.cif_proveedor}}</p>
+                    <p class="card-text"> Domicilio: {{proveedor.domicilio_proveedor}}</p>
+                    <p class="card-text"> Tel: {{proveedor.tel_proveedor}}</p>
+                    <p class="card-text"> E-mail: {{proveedor.mail_proveedor}}</p>
+                    <p class="card-text"> Estado: {% if proveedor.estado_proveedor%}ACTIVO{% else %} INACTIVO {% endif %}</p>
+                    
+
+                    <a href="#" class="btn btn-primary"style="margin: 1px 1px;"> Modificar</a>
+                    <a href="#" class=" btn btn-primary btn-success" style="margin: 1px 1px;">Productos</a>
+                    <a href="{% url 'inactivo_proveedor' proveedor.id %}" class="btn btn-primary btn-danger" style="margin: 1px 1px;">Cambio estado</a>
+                </div>
+            </div>
+        </div>
+    
+
+        <!-- ULTIMOS PEDIDOS DE ESTE PROVEEDOR -->
+    
+        <div class="col-md" >
+            <div class="col-md-3">
+            <h3>Ultimos pedidos</h3>
+            <a href=""  class=" btn btn-secondary " >Nuevo</a>
+            
+            </div>
+
+            <!-- Inserto tabla de pedidos /// A tener en cuenta en elcontexto enviar filtrado ultimos pedidos-->
+            {% include 'proveedoresApp/pedidos.html'%}
+           
+
+
+        </div>
+
+    </div>
+    
+
+</div>
+
+{% endblock %}

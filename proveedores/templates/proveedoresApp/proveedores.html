@@ -5,8 +5,31 @@
 {%load static%}
 {%block content%}
 
-<div class="container">
-    <p>Proveedores</p>
+<div class="container" >
+    <a href="" class=" btn btn-primary btn-success" style="margin: 10px 1px;">Nuevo</a>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>NOMBRE</th>
+                <th>CIF</th>
+                <th>EMAIL</th>
+                <th>TELEFONO</th>
+                <th>ACTIVO</th>
+            </tr>
+        </thead>  
+        <tbody>
+         {% for proveedor in proveedores%}
+            <tr>
+                <td> <a href="{% url 'proveedor_ficha' proveedor.id %}" > {{proveedor.nombre_proveedor}}</a></td>   
+                <td>{{proveedor.cif_proveedor}}</td>
+                <td>{{proveedor.tel_proveedor}}</td>
+                <td>{{proveedor.mail_proveedor}}</td>
+                <td>{% if proveedor.estado_proveedor%}SI{% else %} NO {% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
 
 {% endblock %}
