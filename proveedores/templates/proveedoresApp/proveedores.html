@@ -6,7 +6,7 @@
 {%block content%}
 
 <div class="container" >
-    <a href="" class=" btn btn-primary btn-success" style="margin: 10px 1px;">Nuevo</a>
+    <a href="{% url 'nuevo_proveedor' %}" class=" btn btn-primary btn-success" style="margin: 10px 1px;">Nuevo</a>
     
     <table class="table table-striped">
         <thead>
@@ -15,7 +15,21 @@
                 <th>CIF</th>
                 <th>EMAIL</th>
                 <th>TELEFONO</th>
-                <th>ACTIVO</th>
+                <th>
+                    <label></label><br>
+                    <div class="dropdown">
+                        <button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Estado:
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{% url 'proveedoresPorEstado' 1 %}">Activos</a>
+                            <a class="dropdown-item" href="{% url 'proveedoresPorEstado' 2 %}">Inactivos</a>
+                            <a class="dropdown-item" href="{% url 'proveedoresPorEstado' 0 %}">Todos</a>
+                        </div>
+                    </div>
+                   
+                </th>
             </tr>
         </thead>  
         <tbody>

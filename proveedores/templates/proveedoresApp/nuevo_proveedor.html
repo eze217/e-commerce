@@ -1,0 +1,52 @@
+{% extends 'core/baseLogin.html'%}
+
+{% block title %}Datos proveedor{% endblock %}
+
+{%load static%}
+{%block content%}
+
+<div class='container'>
+    {%if form%}
+    <form method="POST"  id="upload-image-form" enctype="multipart/form-data" style=" margin: 10px 10px;">
+    {%csrf_token%}
+        <h3>Ingrese los datos</h3>
+        <table class="" style="text-align: center; margin: 10px 10px;">
+            <tr>
+                <td>Nombre/Razón social:</td>
+                <td>{{form.nombre_proveedor}}</td>
+            </tr> 
+            <tr>
+                <td>CIF:</td>
+                <td>{{form.cif_proveedor}}</td>
+            </tr>
+            <tr>
+                <td>Domicilio:</td>
+                <td>{{form.domicilio_proveedor}}</td>
+            </tr>
+            <tr>
+                <td>Telefono:</td>
+                <td>{{form.tel_proveedor}}</td>
+            </tr>
+            <tr>
+                <td>E-mail:</td>
+                <td>{{form.mail_proveedor}}</td>
+            </tr>
+            <tr>
+                <td>Logo:</td>
+                <td>{{form.logo_proveedor }}</td>
+            </tr>
+        </table>
+        <input type="submit" class='btn btn-success' value="Confirmar">
+    </form>
+
+    {%else%}
+    <!-- formulario de modificacion -->
+
+
+
+
+    {% endif %}
+</div>
+
+
+{% endblock %}
