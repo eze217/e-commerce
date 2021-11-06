@@ -1,6 +1,7 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import *
-from django.views.generic import View
+from django.views.generic import View , UpdateView
+from django.urls import reverse_lazy
 from .models import Proveedores
 from .forms import ProveedorCreateForms
 
@@ -20,11 +21,11 @@ def proveedoresPorEstado(request,estado):
     #muestro los proveedores por defecto al admin
 
     if request.method == 'GET':
-        if estado==1:
+        if estado==1:#Activos
             lista_proveedores = Proveedores.objects.filter(estado_proveedor=True)
             context = {'proveedores': lista_proveedores}
             return render(request, 'proveedoresApp/proveedores.html', context)
-        elif estado==2:
+        elif estado==2:#inactivos
             lista_proveedores = Proveedores.objects.filter(
                 estado_proveedor=False)
             context = {'proveedores': lista_proveedores}
@@ -35,19 +36,17 @@ def proveedoresPorEstado(request,estado):
 
 
 #Ficha completa proveedor
-def proveedor_ficha(request,id_proveedor):
-
-    if request.method == 'GET':
-        proveedor= Proveedores.objects.get(id=id_proveedor)
-        context = {
-            'proveedor' : proveedor
+class ProveedorFichaView(View):
+    def get(self,request,pk,*args,**kwargs):
+        proveedor = get_object_or_404(Proveedores,pk=pk)
+        context={
+            'proveedor':proveedor
         }
+        return render(request, 'proveedoresApp/proveedor_ficha.html', context)
 
-        return render(request, 'proveedoresApp/proveedor_ficha.html',context)
+
 
 #Pongo inactivo al proveedor
-
-
 def inactivo_proveedor(request, id_proveedor):
     
     if request.method == 'GET':
@@ -97,15 +96,14 @@ class ProveedorCreateView(View):
         return redirect('proveedores')
 
 # MODIFICACION DE DATOS PROVEEDOR
-#ver como pasar parametros en classview
-class EditProveedorView(View):
-    def get(self,request,*args,**kwargs):
-        
-        if request.method == 'GET':
-            proveedor = Proveedores.objects.get(id)
-            proveedor.save()
-            context = {
-                'proveedor': proveedor
-            }
-
-            return render(request,'nuevo_proveedor', context)
+class ProveedorUpdateView(UpdateView):
+    model= Proveedores
+    fields = ['nombre_proveedor', 'cif_proveedor',
+              'domicilio_proveedor', 'tel_proveedor', 'mail_proveedor', 'logo_proveedor']
+    template_name = 'proveedoresApp/edito_proveedores.html'
+    
+    def get_success_url(self):
+        pk= self.kwargs['pk']
+        return reverse_lazy('proveedor_ficha', kwargs={'pk': pk})
+    
+    
