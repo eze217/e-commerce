@@ -21,7 +21,7 @@
                     
 
                     <a href="{% url 'edito_proveedor' proveedor.id %}" class="btn btn-primary"style="margin: 1px 1px;"> Modificar</a>
-                    <a href="#" class=" btn btn-primary btn-success" style="margin: 1px 1px;">Productos</a>
+                    <a href="{% url 'productos_proveedor' proveedor.id %}" class=" btn btn-primary btn-success" style="margin: 1px 1px;">Productos</a>
                     <a href="{% url 'inactivo_proveedor' proveedor.id %}" class="btn btn-primary btn-danger" style="margin: 1px 1px;">Cambio estado</a>
                 </div>
             </div>
@@ -33,7 +33,7 @@
         <div class="col-md" >
             <div class="col-md-3">
             <h3>Ultimos pedidos</h3>
-            <a href=""  class=" btn btn-secondary " >Nuevo</a>
+            <a href="{% url 'productos_proveedor' proveedor.id %}"  class=" btn btn-secondary " >Nuevo</a>
             
             </div>
 

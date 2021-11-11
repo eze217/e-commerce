@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
-from .views import proveedores, inactivo_proveedor, ProveedorCreateView, ProveedorUpdateView, ProveedorFichaView, proveedoresPorEstado
-
+from .views import proveedores, inactivo_proveedor, proveedoresPorEstado
+from .views import ProveedorUpdateView, ProveedorFichaView,  ProductoListView, ProveedorCreateView, ProductoUpdateView, ProductoCreateView
 
 
 urlpatterns = [
@@ -12,6 +12,9 @@ urlpatterns = [
     path('nuevo_proveedor/', ProveedorCreateView.as_view(), name='nuevo_proveedor'),
     path('<int:pk>/edito_proveedor/',ProveedorUpdateView.as_view(), name='edito_proveedor'),
     path('a/<int:estado>', proveedoresPorEstado, name='proveedoresPorEstado'),
+    path('<int:pk>/productos/',ProductoListView.as_view(), name='productos_proveedor'),
+    path('<int:pk>/edito_producto/',ProductoUpdateView.as_view(), name='edito_producto'),
+    path('nuevo_producto/<int:pk>', ProductoCreateView.as_view(), name='nuevo_producto'),
 
 ]
 

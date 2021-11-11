@@ -1,0 +1,46 @@
+{% extends 'core/baseLogin.html'%}
+
+{% block title %}Datos producto{% endblock %}
+
+{%load static%}
+{%block content%}
+
+<div class='container'>
+    {%if form%}
+    <form method="POST"  id="upload-image-form" enctype="multipart/form-data" style=" margin: 10px 10px;">
+    {%csrf_token%}
+        <h3>Modique los datos</h3>
+        <table class="" style="text-align: center; margin: 10px 10px;">
+            <tr>
+                <td>Nombre</td>
+                <td>{{form.nombre_producto}}</td>
+            </tr> 
+            <tr>
+                <td>Descripción:</td>
+                <td>{{form.descripcion_producto}}</td>
+            </tr>
+            <tr>
+                <td>Precio:</td>
+                <td>{{form.precio_producto}}</td>
+            </tr>
+            <tr>
+                <td>Disponible? :</td>
+                <td>{{form.disponible_producto}}</td>
+            </tr>
+            
+            <tr>
+                <td>Imagen:</td>
+                <td>{{form.imagen_producto }}</td>
+            </tr>
+        </table>
+        <input type="submit" class='btn btn-success' value="Confirmar">
+        <a href="{% url 'proveedor_ficha' producto.id_proveedor.id %}" class='btn btn-danger'>Cancelar</a>
+    </form>
+
+   
+
+    {% endif %}
+</div>
+
+
+{% endblock %}
