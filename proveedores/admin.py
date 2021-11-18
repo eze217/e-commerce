@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Proveedores,Producto
+from .models import Deposito,Pedido,PedidoDetalle,EstadosPedidos
 
 # Register your models here.
 
@@ -17,5 +18,10 @@ class ProductoAdmin(admin.ModelAdmin):
 
 admin.site.register(Proveedores, ProveedoresAdmin)
 admin.site.register(Producto, ProductoAdmin)
+admin.site.register(Deposito)
+admin.site.register(Pedido)
+admin.site.register(PedidoDetalle)
+admin.site.register(EstadosPedidos)
+
 
 

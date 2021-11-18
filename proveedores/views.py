@@ -1,6 +1,7 @@
 from django.db import models
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import *
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import View , UpdateView 
 from django.urls import reverse_lazy
 from .models import Proveedores,Producto
@@ -13,7 +14,7 @@ def proveedores(request):
     #muestro los proveedores por defecto al admin
    
     if request.method == 'GET':
-        lista_proveedores = Proveedores.objects.all()
+        lista_proveedores = Proveedores.objects.all().order_by('-estado_proveedor')
         context = {'proveedores': lista_proveedores}
         return render(request, 'proveedoresApp/proveedores.html', context)
 
@@ -115,9 +116,14 @@ class ProveedorUpdateView(UpdateView):
 class ProductoListView(View):
     model= Producto
     template= 'productos/productos.html'
-
-    def get(self,request, pk,*args,**kwargs):
-        productos= Producto.objects.filter(id_proveedor=pk)
+    
+    def get(self,request, pk=None,*args,**kwargs):
+        
+        if pk==None:
+            productos = Producto.objects.all().order_by('id_proveedor')
+        else:
+            productos = Producto.objects.filter(
+                id_proveedor=pk).order_by('-disponible_producto')
       
         context={
             'productos':productos,
@@ -182,3 +188,32 @@ class ProductoCreateView(View):
                 create.save()
 
         return redirect('productos_proveedor',id_proveedor.id)
+
+
+# ------------------------- VISTAS PEDIDOS  ----------------------------
+
+
+
+#Armado de pedido
+
+class PedidoCreateView(View):
+    
+    def post(self,request,*args,**kwargs):
+        if request.method == 'POST':
+            
+            listaProductos = request.POST.getlist("idproductopedido")
+            productos=[]
+            
+            #Busco los objetos productos
+            for d in listaProductos:
+                productos.append(Producto.objects.get(id=int(d)))
+ 
+            context={
+                'productos': productos,
+                
+            }
+        
+        return render(request,'pedidos/nuevo_pedido.html',context)
+
+
+

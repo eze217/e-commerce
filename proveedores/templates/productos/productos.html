@@ -6,10 +6,9 @@
 {%block content%}
 
 <div class="container" >
-    
+    <form action="{%url 'creo_orden'%}" method="POST"> {%csrf_token%}
     <a href="{% if idProveedor %} {%url 'nuevo_producto' idProveedor %} {%else%} {%url 'nuevo_producto' 0 %} {% endif %}  " class=" btn  btn-secondary" style="margin: 10px 1px;">Nuevo Producto</a>
-    <a href="" class=" btn  btn-success" style="margin: 10px 1px;">Nuevo Pedido</a>
-    
+    <button type="submit" class=" btn  btn-success" style="margin: 10px 1px;">Nuevo Pedido</button>
     <a href="" class=" btn  btn-info" style="margin: 10px 1px;">excel</a>
    
     <table class="table table-striped" style="text-align: center;">
@@ -49,15 +48,16 @@
                 <td> <a href="{%url 'edito_producto' producto.id %}"> {{producto.nombre_producto}}</a></td>
                 <td> {{producto.descripcion_producto}}</td>
                 <td>  {{producto.precio_producto}}€</td>
-                <td> {% if producto.disponible_producto%}SI{% else %} NO {% endif %}</td>
+                <td {% if producto.disponible_producto == False %} style="color: darkred;"  {% endif %}>  {% if producto.disponible_producto%}SI{% else %} NO {% endif %}</td>
                 
-                <td style="text-align: center;"> <input type="checkbox"> </td>
+                <td style="text-align: center;"> {% if producto.disponible_producto%}<input type="checkbox" name='idproductopedido' value="{{producto.id}}" >{% endif %}</td>
                
             </tr>
         {% endfor %}
         </tbody>
         
     </table>
+    </form>
 </div>
 
 {% endblock %}

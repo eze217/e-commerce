@@ -1,7 +1,7 @@
 from django import forms
 from django.db.models.base import Model
 from django.db.models.query import QuerySet
-from .models import Producto, Proveedores
+from .models import Producto, Proveedores,Pedido
 
 
 class ProveedorCreateForms(forms.ModelForm):
@@ -25,6 +25,7 @@ class ProductoProveedorCreateForm(forms.ModelForm):
         model = Producto
         fields = ('nombre_producto', 'descripcion_producto',
                   'precio_producto', 'disponible_producto', 'imagen_producto')
+
 
 
 
