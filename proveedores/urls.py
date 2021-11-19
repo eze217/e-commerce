@@ -1,17 +1,24 @@
 from django.contrib import admin
 from django.urls import path
-from .views import proveedores, proveedor_ficha, inactivo_proveedor, ProveedorCreateView,EditProveedorView,proveedoresPorEstado
-
-
+from .views import proveedores, inactivo_proveedor, proveedoresPorEstado
+from .views import ProveedorUpdateView, ProveedorFichaView,  ProductoListView, ProveedorCreateView, ProductoUpdateView, ProductoCreateView
+from .views import PedidoCreateView
 
 urlpatterns = [
     
     path('', proveedores , name='proveedores'),
-    path('ficha_proveedor/<int:id_proveedor>', proveedor_ficha, name='proveedor_ficha'),
+    path('<int:pk>/',ProveedorFichaView.as_view(), name='proveedor_ficha'),
     path('inactivo_proveedor/<int:id_proveedor>',inactivo_proveedor, name='inactivo_proveedor'),
     path('nuevo_proveedor/', ProveedorCreateView.as_view(), name='nuevo_proveedor'),
-    #path('edito_proveedor/', EditProveedorView.as_view(), name='edito_proveedor')
+    path('<int:pk>/edito_proveedor/',ProveedorUpdateView.as_view(), name='edito_proveedor'),
     path('a/<int:estado>', proveedoresPorEstado, name='proveedoresPorEstado'),
+
+    path('productos/', ProductoListView.as_view(),name='productos'),
+    path('<int:pk>/productos/',ProductoListView.as_view(), name='productos_proveedor'),
+    path('<int:pk>/edito_producto/',ProductoUpdateView.as_view(), name='edito_producto'),
+    path('nuevo_producto/<int:pk>', ProductoCreateView.as_view(), name='nuevo_producto'),
+
+    path('creo_orden/', PedidoCreateView.as_view(), name='creo_orden')
 
 ]
 

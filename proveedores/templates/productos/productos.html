@@ -1,0 +1,63 @@
+{% extends 'core/baseLogin.html'%}
+
+{% block title %}Productos{% endblock %}
+
+{%load static%}
+{%block content%}
+
+<div class="container" >
+    <form action="{%url 'creo_orden'%}" method="POST"> {%csrf_token%}
+    <a href="{% if idProveedor %} {%url 'nuevo_producto' idProveedor %} {%else%} {%url 'nuevo_producto' 0 %} {% endif %}  " class=" btn  btn-secondary" style="margin: 10px 1px;">Nuevo Producto</a>
+    <button type="submit" class=" btn  btn-success" style="margin: 10px 1px;">Nuevo Pedido</button>
+    <a href="" class=" btn  btn-info" style="margin: 10px 1px;">excel</a>
+   
+    <table class="table table-striped" style="text-align: center;">
+        <thead>
+            <tr style=>
+                <th>PROVEEDOR</th>
+                <th>IMAGEN</th>
+                <th>NOMBRE</th>
+                <th>DESCRIPCION</th>
+                <th>PRECIO</th>
+                <th>
+                    <label></label><br>
+                    <div class="dropdown">
+                        <button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            DISPONIBLE ?:
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="">DISPONIBLES</a>
+                            <a class="dropdown-item" href="">NO DISPONIBLES</a>
+                            <a class="dropdown-item" href="">TODOS</a>
+                        </div>
+                    </div>
+                   
+                </th>
+                
+                <th >SELECCION<br>
+                    PEDIDO</th>
+            </tr>
+        </thead>  
+        
+        <tbody>
+         {% for producto in productos %}
+            <tr>
+                <td> <a href="{% url 'proveedor_ficha' producto.id_proveedor.id %}"> {{producto.id_proveedor}}</a></td>   
+                <td style="width: 10%;"> {% if producto.imagen_producto %}<img src="{{producto.imagen_producto.url}}" style="width: 50%;">{% else %} {% endif %}</td>
+                <td> <a href="{%url 'edito_producto' producto.id %}"> {{producto.nombre_producto}}</a></td>
+                <td> {{producto.descripcion_producto}}</td>
+                <td>  {{producto.precio_producto}}€</td>
+                <td {% if producto.disponible_producto == False %} style="color: darkred;"  {% endif %}>  {% if producto.disponible_producto%}SI{% else %} NO {% endif %}</td>
+                
+                <td style="text-align: center;"> {% if producto.disponible_producto%}<input type="checkbox" name='idproductopedido' value="{{producto.id}}" >{% endif %}</td>
+               
+            </tr>
+        {% endfor %}
+        </tbody>
+        
+    </table>
+    </form>
+</div>
+
+{% endblock %}

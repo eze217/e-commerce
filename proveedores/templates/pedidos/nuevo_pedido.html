@@ -1,0 +1,64 @@
+{% extends 'core/baseLogin.html'%}
+
+{% block title %}Nuevo Pedido{% endblock %}
+
+{%load static%}
+
+{%block content%}
+
+
+
+<div class="container">
+    
+    <h2 style="margin: 2%;" >Confirme su pedido</h2>
+    
+    <form action="" method="POST"> {%csrf_token%}
+        
+
+        <table class="table table-striped " id="rwd-table-id" style="text-align: center;">
+            <thead>
+                <tr style=>
+                    <th>PROVEEDOR</th>
+                    <th>PRODUCTO</th>
+                    <th>CANTIDAD</th>
+                    <th>COSTO UNITARIO</th>
+                    <th>COSTO TOTAL</th>        
+                </tr>
+            </thead>
+
+            <tbody>
+                {%for producto in productos %}
+                <tr >
+                    <td> <a href="{% url 'proveedor_ficha' producto.id_proveedor.id %}"> {{producto.id_proveedor}}</a></td>
+                    <td>  {{producto.nombre_producto}}</td>
+                    <td><input type="number" id="cantidad" onchange="suma_total()"> </td>
+                    <input type="hidden" id="costo" value="{{producto.precio_producto}}" >
+                    <td>  {{producto.precio_producto}}</td>
+                    <td></td>
+                    
+                </tr>
+                {% endfor %}
+                
+            </tbody>
+            <tfoot>
+                <tr style="text-align: right;">
+                    <td colspan="5" id="totalGeneral">Total general: 0 €</td>
+                </tr>
+            </tfoot>
+            
+        </table>
+        <div class="row" style="text-align: right;">
+            <p>
+            <button type="submit" class="btn btn-primary" style="margin: 1%;">Confirmar pedido</button>
+            </p>
+        </div>
+    </form>
+</div>
+
+
+<script src="{%static 'js/sumacantidades.js'%}"></script>
+
+
+
+
+{%endblock%}
