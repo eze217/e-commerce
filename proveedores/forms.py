@@ -27,5 +27,3 @@ class ProductoProveedorCreateForm(forms.ModelForm):
                   'precio_producto', 'disponible_producto', 'imagen_producto')
 
 
-
-
