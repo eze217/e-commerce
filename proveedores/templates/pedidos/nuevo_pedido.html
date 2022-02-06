@@ -12,7 +12,7 @@
     
     <h2 style="margin: 2%;" >Confirme su pedido</h2>
     
-    <form action="" method="POST"> {%csrf_token%}
+    <form action="{% url 'confirmo_compra' %}" method="POST"> {%csrf_token%}
         
 
         <table class="table table-striped " id="rwd-table-id" style="text-align: center;">
@@ -29,9 +29,10 @@
             <tbody>
                 {%for producto in productos %}
                 <tr >
-                    <td> <a href="{% url 'proveedor_ficha' producto.id_proveedor.id %}"> {{producto.id_proveedor}}</a></td>
-                    <td>  {{producto.nombre_producto}}</td>
-                    <td><input type="number" id="cantidad" onchange="suma_total()"> </td>
+                    <td> <a href="{% url 'proveedor_ficha' producto.id_proveedor.id %}" > {{producto.id_proveedor}}</a></td>
+                    <input type="hidden" name="productoSolicitado" value="{{producto.id}}">
+                    <td> {{producto.nombre_producto}}</td>
+                    <td><input type="number" name="cantSolicitada" id="cantidad" onchange="suma_total()" value="0" required> </td>
                     <input type="hidden" id="costo" value="{{producto.precio_producto}}" >
                     <td>  {{producto.precio_producto}}</td>
                     <td></td>

@@ -1,0 +1,109 @@
+{% extends 'core/baseLogin.html'%}
+
+{% block title %} Detalle orden{% endblock %}
+
+{%load static%}
+{%block content%}
+
+<div class="container">
+    <table class="table " style="width: 18rem; width: 100%; margin: 5px 5px;">
+
+        <thead>
+            <tr>
+                <th>Nro. de Orden</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Valor Unitario</th>
+                <th>Valor Total</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% if HAS_ACCESS %}    
+            {% for pedido in detalle_pedido%}
+            <tr>
+                
+                <td>{{pedido.numeroPedido.id}}</td>
+                <td>{{pedido.idproducto}}</td>
+                <td>{{pedido.cant_pedida}}</td>
+                <td>{{ pedido.idproducto.precio_producto}} €</td>
+                <td>{{ pedido.montoTotal}} €</td>
+
+
+            </tr>
+
+            {%endfor%}
+        {%endif%}
+        </tbody>
+    </table>
+    <div class="container">
+
+        <div class="row" style="margin-top: 2%;">
+            <h3>Datos de la entrega:</h3>
+            <div class="col">
+                <h6>Nombre deposito:</h6><p>{{deposito.nombre_deposito}}</p>
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col">
+                <h6>Domicilio:</h6>
+                <p>{{deposito.domicilio_deposito}}</p>
+            </div>
+            <div class="col">
+                <h6>Telefono:</h6>
+                <p>{{deposito.telefono_deposito}}</p>
+            </div>
+        </div>
+
+        {% if form%}
+        <div class="row" style="margin-top: 2%;">
+            <form action="" method="POST">
+            <h3>Cambio deposito:</h3>
+            <div class="col">
+                <h6>Nombre deposito:</h6>
+    
+                <p>{{form}}</p>
+            </div>
+            </form>
+        </div>
+        {%endif%}
+        
+    </div>
+    <div class="container">
+        <div class="row" style="margin: 3%;">
+            <h4>Cambio de estado:</h4>
+            <!-- buscar la tabla de estados, y que cada cambio sea un boton con un color diferente-->
+            {% if HAS_ACCESS %}
+            
+            
+            <p><strong> Estado actual: {{detalle_pedido.0.numeroPedido.estado_pedido}} </strong></p>
+            </br>
+            
+            
+            <div class="col">
+                <a href="{% url 'cambia_estado_pedido' pedido_id=detalle_pedido.0.numeroPedido.id  id_estado=2 %}" class="btn btn-success">Confirmar </a>
+            </div>        
+            <div class="col">
+                <a href="{% url 'cambia_estado_pedido' pedido_id=detalle_pedido.0.numeroPedido.id  id_estado=3 %}"
+                    class="btn btn-danger">Anular </a>
+            </div>
+            <div class="col" style>
+                <a href="{% url 'cambia_estado_pedido' pedido_id=detalle_pedido.0.numeroPedido.id  id_estado=4 %}"
+                    class="btn btn-primary">En reparto </a>
+                
+            </div>
+            <div class="col">
+                <a href="{% url 'cambia_estado_pedido' pedido_id=detalle_pedido.0.numeroPedido.id  id_estado=5 %}"
+                    class="btn btn-secondary">Entregado </a>
+               
+            </div>
+            
+            {%endif%}
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

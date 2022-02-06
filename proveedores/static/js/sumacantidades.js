@@ -26,7 +26,7 @@ function suma_total() {
             if (j == 4) {
                 col.innerText = costo * cantidad
                 totalgeneral += parseInt(col.innerText)
-                console.log(totalgeneral)
+                
             }
         }
     }

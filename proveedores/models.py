@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models import query_utils
 from django.db.models.deletion import CASCADE
+from django.contrib.auth.models import User
+
 
 
 
@@ -18,6 +20,7 @@ class Proveedores (models.Model):
         verbose_name='Logo', blank=True, null=True, upload_to='proveedores_logos')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    usuario=models.ForeignKey(User,on_delete=CASCADE)
 
     class meta:
         verbose_name = 'Proveedor'
@@ -53,7 +56,10 @@ class Producto (models.Model):
 
 class Deposito(models.Model):
     nombre_deposito = models.CharField(verbose_name='Nombre Deposito',max_length=50)
-
+    es_predefinido = models.BooleanField(default=False)
+    domicilio_deposito=models.CharField(verbose_name='Domicilio',max_length=50)
+    telefono_deposito=models.CharField(verbose_name='Telefono',max_length=12)
+        
     def __str__(self):
         return self.nombre_deposito
 
@@ -70,6 +76,9 @@ class EstadosPedidos(models.Model):
     )
 
     nombre_estado = models.CharField(verbose_name='Estado', choices=TYPE_CHOICES, max_length=20)
+
+    def __str__(self):
+        return self.nombre_estado
    
 
 
@@ -78,20 +87,20 @@ class EstadosPedidos(models.Model):
 class Pedido(models.Model):
    # numero_orden=models.IntegerField(verbose_name='Numero de orden') es el ID
    id_proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE)
-   id_producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
-   monto_total = models.FloatField(verbose_name='Monto (€)')
-   estado_pedido = models.ForeignKey(EstadosPedidos, on_delete=CASCADE)
-   id_deposito = models.ForeignKey(Deposito, on_delete=CASCADE, blank=True, null=True)
+   estado_pedido = models.ForeignKey( EstadosPedidos, on_delete=CASCADE)
+   id_deposito = models.ForeignKey(Deposito, on_delete=CASCADE , blank=True, null=True)
    created = models.DateTimeField(auto_now_add=True)
    updated = models.DateTimeField(auto_now=True)
 
 
 
 class PedidoDetalle(models.Model):
-    numeroPedido=models.IntegerField(verbose_name='Número de Pedido',blank=False,null=False)
+    numeroPedido=models.ForeignKey(Pedido,on_delete=CASCADE,verbose_name='Número de Pedido')
     idproducto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cant_pedida=models.IntegerField(verbose_name='Cantidad')
-    valor_producto=models.FloatField(verbose_name='Valor Unitario',max_length=20)
-    valor_producto_total = models.FloatField(
-        verbose_name='Valor Total', max_length=20)
+
+    def montoTotal(self):
+        total = self.cant_pedida * self.idproducto.precio_producto
+        return total
+    
 

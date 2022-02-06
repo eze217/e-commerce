@@ -7,7 +7,7 @@
 
 <div class="container" >
     <form action="{%url 'creo_orden'%}" method="POST"> {%csrf_token%}
-    <a href="{% if idProveedor %} {%url 'nuevo_producto' idProveedor %} {%else%} {%url 'nuevo_producto' 0 %} {% endif %}  " class=" btn  btn-secondary" style="margin: 10px 1px;">Nuevo Producto</a>
+    <a href="{% if idProveedor %} {%url 'nuevo_producto_prov' idProveedor %} {%else%} {%url 'nuevo_producto'  %} {% endif %}  " class=" btn  btn-secondary" style="margin: 10px 1px;">Nuevo Producto</a>
     <button type="submit" class=" btn  btn-success" style="margin: 10px 1px;">Nuevo Pedido</button>
     <a href="" class=" btn  btn-info" style="margin: 10px 1px;">excel</a>
    
@@ -41,6 +41,7 @@
         </thead>  
         
         <tbody>
+        {% if HAS_ACCESS %}
          {% for producto in productos %}
             <tr>
                 <td> <a href="{% url 'proveedor_ficha' producto.id_proveedor.id %}"> {{producto.id_proveedor}}</a></td>   
@@ -54,6 +55,7 @@
                
             </tr>
         {% endfor %}
+        {% endif %}
         </tbody>
         
     </table>
