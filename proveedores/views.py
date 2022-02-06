@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import *
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import View , UpdateView 
 from django.urls import reverse_lazy
 from .models import Proveedores, Producto, Pedido, PedidoDetalle, EstadosPedidos, Deposito
@@ -11,7 +10,7 @@ from .forms import ProveedorCreateForms, ProductoCreateForms, ProductoProveedorC
 #--------------
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.template.loader import render_to_string
+
 '''
 from weasyprint import HTML
 from weasyprint.text.fonts import FontConfiguration
@@ -102,6 +101,7 @@ def inactivo_proveedor(request, id_proveedor):
 #Formulario creación Proveedor
 class ProveedorCreateView(View):
     def get(self,request,*args,**kwargs):
+
         forms=ProveedorCreateForms()
         context={'form':forms}
         return render(request, 'proveedoresApp/nuevo_proveedor.html',context)
@@ -151,8 +151,6 @@ class ProductoListView(View):
     
     def get(self,request, pk=None,*args,**kwargs):
         if request.user.is_authenticated:
-            
-            
             HAS_ACCESS = False
             if pk == None :           
                 if self.request.user.is_superuser:
@@ -328,6 +326,7 @@ class ConfirmoPedidoProveedor(View):
 
 #Muestro lista de pedidos
 class PedidosView(View):
+    
     def get(self, request,*args,**kwargs):
         if self.request.user.is_authenticated:
             if self.request.user.is_superuser:
